@@ -1,0 +1,21 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-5" style="max-width: 500px;">
+    <h2>
+        <%= typeof booking !=='undefined' && booking ? 'Update Booking' : 'Add New Booking' %>
+    </h2>
+    <form action="<%= typeof booking !== 'undefined' && booking ? '/update-booking/' + booking._id : '/book-room' %>"
+        method="POST">
+        <div class="mb-3"><label>Customer Name</label><input type="text" name="customerName" class="form-control"
+                value="<%= typeof booking !== 'undefined' && booking ? booking.customerName : '' %>" required></div>
+        <div class="mb-3"><label>Room Number</label><input type="text" name="roomNumber" class="form-control"
+                value="<%= typeof booking !== 'undefined' && booking ? booking.roomNumber : '' %>" required></div>
+        <div class="mb-3"><label>Start Time</label><input type="datetime-local" name="startTime" class="form-control"
+                value="<%= typeof booking !== 'undefined' && booking ? booking.startTime.toISOString().slice(0,16) : '' %>"
+                required></div>
+        <div class="mb-3"><label>End Time</label><input type="datetime-local" name="endTime" class="form-control"
+                value="<%= typeof booking !== 'undefined' && booking ? booking.endTime.toISOString().slice(0,16) : '' %>"
+                required></div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/bookings" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
