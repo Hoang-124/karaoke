@@ -10,7 +10,14 @@ exports.getAllBookings = async (req, res) => {
 
 // 2. CHỨC NĂNG THÊM MỚI ĐẶT PHÒNG (Giao diện)
 // Hiển thị giao diện form để người dùng điền thông tin đặt phòng mới (bookRoom.ejs)
-exports.getAddBooking = (req, res) => res.render('bookRoom', { booking: null });
+exports.getAddBooking = async (req, res) => {
+    try {
+        const rooms = await Room.find();
+        res.render('bookRoom', { booking: null, rooms });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
 
 // 3. CHỨC NĂNG THÊM MỚI ĐẶT PHÒNG (Xử lý dữ liệu)
 // Nhận dữ liệu từ form, kiểm tra phòng có tồn tại không, tính tổng tiền và lưu vào cơ sở dữ liệu
@@ -38,8 +45,13 @@ exports.postDeleteBooking = async (req, res) => {
 // 5. CHỨC NĂNG CẬP NHẬT ĐẶT PHÒNG (Giao diện)
 // Lấy thông tin đặt phòng cũ theo ID và hiển thị lên form chỉnh sửa (updateRoom.ejs)
 exports.getUpdateBooking = async (req, res) => {
-    const booking = await Booking.findById(req.params.id);
-    res.render('updateRoom', { booking });
+    try {
+        const booking = await Booking.findById(req.params.id);
+        const rooms = await Room.find();
+        res.render('updateRoom', { booking, rooms });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
 };
 
 // 6. CHỨC NĂNG CẬP NHẬT ĐẶT PHÒNG (Xử lý dữ liệu)

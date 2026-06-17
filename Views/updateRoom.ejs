@@ -7,8 +7,19 @@
         method="POST">
         <div class="mb-3"><label>Customer Name</label><input type="text" name="customerName" class="form-control"
                 value="<%= typeof booking !== 'undefined' && booking ? booking.customerName : '' %>" required></div>
-        <div class="mb-3"><label>Room Number</label><input type="text" name="roomNumber" class="form-control"
-                value="<%= typeof booking !== 'undefined' && booking ? booking.roomNumber : '' %>" required></div>
+        <div class="mb-3">
+            <label>Room Number</label>
+            <select name="roomNumber" class="form-select" required>
+                <option value="">-- Select Room --</option>
+                <% if (typeof rooms !== 'undefined' && rooms) { %>
+                    <% rooms.forEach(room => { %>
+                        <option value="<%= room.roomNumber %>" <%= (typeof booking !== 'undefined' && booking && booking.roomNumber === room.roomNumber) ? 'selected' : '' %>>
+                            <%= room.roomNumber %> (<%= room.status %>)
+                        </option>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>
         <div class="mb-3"><label>Start Time</label><input type="datetime-local" name="startTime" class="form-control"
                 value="<%= typeof booking !== 'undefined' && booking ? booking.startTime.toISOString().slice(0,16) : '' %>"
                 required></div>
